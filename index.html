@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-mail Decoder</title>
+
+  <!-- Updated Bootstrap and added Bootstrap icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .response-card {
+      max-width: 40rem;
+    }
+    .button-container {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href=".">Email Analysis</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <div class="nav-item dropdown ms-auto" role="group" aria-label="Toggle dark mode" title="Toggle Dark Mode">
+          <button class="dark-theme-toggle btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme (auto)">
+            <i class="bi bi-circle-half"></i> <span class="d-lg-none ms-2">Toggle theme</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><button class="dropdown-item" data-bs-theme-value="light"><i class="me-2 bi bi-sun-fill"></i> Light</button></li>
+            <li><button class="dropdown-item" data-bs-theme-value="dark"><i class="me-2 bi bi-moon-stars-fill"></i> Dark</button></li>
+            <li><button class="dropdown-item" data-bs-theme-value="auto"><i class="me-2 bi bi-circle-half"></i> Auto</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1 class="mt-5 text-center">Email Decoder</h1>
+
+    <div class="mx-auto my-5 response-card">
+      <p><strong>Customer Inquiry Response Generator</strong> uses <strong> LLM </strong> to generate <strong>positive</strong> and <strong>empathetic</strong> responses to customer inquiries.</p>
+      <p>Quickly craft <strong>friendly, professional</strong>, and <strong>solution-oriented replies</strong> to improve customer satisfaction and reduce friction in communication.</p>
+      <p>Simply enter a customer inquiry below and click "Generate Response" for reply.</p>
+    </div>
+
+    <!-- Input Section -->
+    <div class="mx-auto my-5 response-card">
+      <textarea id="inquiryInput" class="form-control mb-3" rows="4" placeholder="Enter customer inquiry..."></textarea>
+      <div class="button-container">
+        <button id="submitButton" class="btn btn-primary">Generate Response</button>
+        <button id="draft-email" class="btn btn-info ms-auto">
+            <i class="bi bi-envelope me-2"></i> Draft e-mail
+            <span id="draft-email-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Response Display Section -->
+    <div id="responseDisplay" class="mt-4"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="my-5 vh-100 d-flex align-items-center justify-content-center">
+    <h1 class="display-6">Designed by <a href="https://gramener.com/" class="text-reset link-offset-3 link-underline link-underline-opacity-25">Gramener</a></h1>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3/dist/dark-theme.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>

@@ -1,6 +1,6 @@
 # Email Decoder
 
-The **Email Decoder** is a user-friendly web application designed to help you analyze emails and generate professional, empathetic, and solution-oriented responses. Powered by **LLM (Language Learning Models)**, this tool simplifies communication by providing clear and actionable outputs.
+The **Email Decoder** is a user-friendly web application designed to help you analyze emails and generate professional, empathetic, and solution-oriented responses. Powered by **LLM (Language Learning Models)**. This tool helps interpret emails accurately and improves communication by providing clear and actionable results.
 
 ---
 
@@ -10,13 +10,13 @@ The **Email Decoder** is a user-friendly web application designed to help you an
   Detects the tone of the email (Positive, Neutral, or Negative) and highlights key points.
 
 - **Actionable Suggestions**  
-  Provides structured action items for stakeholders based on the email's content.
+  Provides structured action items for stakeholders based on the email content provided.
 
 - **Calendar Integration Suggestions**  
   Recommends meeting titles, dates, and times if deadlines or events are implied in the email.
 
 - **Draft Email Generator**  
-  Quickly crafts a professional and positive email draft for replies.
+  Generates a professional and suitable email draft on demand.
 
 - **Copy to Clipboard**  
   Convenient buttons to copy generated responses or drafts.
@@ -26,16 +26,16 @@ The **Email Decoder** is a user-friendly web application designed to help you an
 ## How to Use
 
 1. **Enter Inquiry**  
-   - Type or paste a customer inquiry in the text box provided.
+   - Paste the email content to be decoded in the text box provided.
 
 2. **Generate Response**  
-   - Click **Generate Response** to analyze the inquiry and view key insights.
+   - Click **Generate Response** for LLM to analyze the email and provide key insights.
 
 3. **Draft Email**  
-   - Use the **Draft Email** button to generate a professional reply.
+   - Use the **Draft Email** button to generate a professional reply if you need help in drafting a response. This is not mandatory.
 
 4. **Copy Content**  
-   - Use the "Copy to Clipboard" button to save the generated response or email draft.
+   - Use the "Copy to Clipboard" button to save the key insights or the email draft.
 
 ---
 
@@ -48,10 +48,10 @@ The **Email Decoder** is a user-friendly web application designed to help you an
 
 ## Why Use This?
 
-The **Email Decoder** is ideal for anyone looking to improve communication efficiency, especially in customer support, project management, and stakeholder engagement. It saves time while ensuring professionalism in every interaction.
+The **Email Decoder** is ideal for anyone looking to improve communication efficiency, especially in customer support, project management, and stakeholder engagement. It not only saves time but also helps handle situations effectively, ensuring professionalism in every interaction.
 
 ---
 
 ## About
 
-This application is designed and developed by **[Gramener](https://gramener.com)** 
+This application is designed and developed by **[Gramener](https://gramener.com), tweaked by Nethaji** 

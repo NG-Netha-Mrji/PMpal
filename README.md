@@ -1,6 +1,6 @@
 # Email Decoder
 
-The **Email Decoder** is a user-friendly web application designed to help you analyze emails and generate professional, empathetic, and solution-oriented responses. Powered by **LLM (Language Learning Models)**. This tool helps interpret emails accurately and improves communication by providing clear and actionable results.
+The **Email Decoder** is a user-friendly web application designed to help you analyze emails and generate professional, empathetic, and solution-oriented responses. Powered by **LLM (Language Learning Models)**. This tool helps interpret emails accurately and improves communication by providing clear and actionable output.
 
 ---
 
@@ -54,4 +54,4 @@ The **Email Decoder** is ideal for anyone looking to improve communication effic
 
 ## About
 
-This application is designed and developed by **[Gramener](https://gramener.com), tweaked by Nethaji** 
+This application is designed and developed by **[Gramener](https://gramener.com)** and tweaked by **[Nethaji](emailto:d.nethaji@straive.com)** 

@@ -54,4 +54,4 @@ The **Email Decoder** is ideal for anyone looking to improve communication effic
 
 ## About
 
-This application is designed and developed by **[Gramener](https://gramener.com)** and tweaked by **[Nethaji](emailto:d.nethaji@straive.com)** 
+This application is designed and developed by **[Gramener](https://gramener.com)** and tweaked by **[Nethaji](mailto:d.nethaji@straive.com)** 

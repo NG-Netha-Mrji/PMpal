@@ -1,0 +1,6 @@
+<!-- Changes expected:
+
+1. Create a drop-down with the following (This should be an expansion to the draft email option):
+  a) draft a positive response to the email
+  b) draft an email using the hints provided (in this case recieve the hints as input from the user)
+  c) improvise the draft created by the user (accept the draft as input from the user)

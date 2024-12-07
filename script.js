@@ -124,14 +124,37 @@ const postData = async (input) => {
 
 const generateEmailDraft = async (input) => {
     const emailButton = document.getElementById('draft-email');
-    const emailSpinner = createElement('span', 'spinner-border spinner-border-sm text-white', ''); // Create the spinner element inside the button
+    const emailSpinner = createElement('span', 'spinner-border spinner-border-sm text-white', '');
     emailSpinner.setAttribute('role', 'status');
     emailSpinner.setAttribute('aria-hidden', 'true');
 
-    emailButton.appendChild(emailSpinner); // Add the spinner to the button
-    emailButton.disabled = true; // Disable the button to prevent multiple clicks
+    emailButton.appendChild(emailSpinner);
+    emailButton.disabled = true;
 
     try {
+        // Get the selected draft type and additional inputs
+        const draftType = document.getElementById('draft-type').value;
+        const draftContent = document.getElementById('draft-email-content').value;
+        const draftHints = document.getElementById('draft-hints').value;
+
+        // Customize the system prompt based on draft type
+        let systemPrompt = '';
+        switch(draftType) {
+            case 'positive':
+                systemPrompt = `Generate a reply email as a Project Manager based on the following input. 
+                Use the provided draft content as reference and maintain a positive, professional tone.
+                Reference draft content: ${draftContent}`;
+                break;
+            case 'hints':
+                systemPrompt = `Generate a reply email as a Project Manager based on the following input.
+                Consider these specific hints/requirements while drafting:
+                ${draftHints}`;
+                break;
+            default: // 'improvise'
+                systemPrompt = `Generate a reply email as a Project Manager based on the following input. 
+                Make sure it is in a professional and positive tone.`;
+        }
+
         const response = await fetch("https://llmfoundry.straive.com/openai/v1/chat/completions", {
             method: "POST",
             credentials: "include",
@@ -139,7 +162,7 @@ const generateEmailDraft = async (input) => {
             body: JSON.stringify({
                 model: "gpt-4o-mini",
                 messages: [
-                    { role: "system", content: `Generate a reply email as a Project Manager based on the following input. Make sure it is in a professional and positive tone.` },
+                    { role: "system", content: systemPrompt },
                     { role: "user", content: input }
                 ]
             })
@@ -148,10 +171,7 @@ const generateEmailDraft = async (input) => {
         const data = await response.json();
 
         if (response.ok) {
-            // Populate the email input field with the generated draft
             const draftContent = data.choices[0].message.content;
-
-            // Create a card to display the draft email
             const cardContainer = createElement('div', 'd-flex justify-content-center align-items-center vh-20');
             const card = createElement('div', 'card mt-3');
             const cardHeader = createElement('div', 'card-header', 'Draft Email');
@@ -159,10 +179,8 @@ const generateEmailDraft = async (input) => {
             const cardText = createElement('p', 'card-text', draftContent);
             cardText.style.whiteSpace = 'pre-wrap';
 
-
-            // Create the "Copy Email" button
             const copyButton = createElement('button', 'btn btn-sm btn-outline-primary mt-2', 'Copy Email');
-            copyButton.onclick = () => handleCopy(draftContent); // Copy email content
+            copyButton.onclick = () => handleCopy(draftContent);
 
             cardBody.append(cardText, copyButton);
             card.append(cardHeader, cardBody);
@@ -174,8 +192,8 @@ const generateEmailDraft = async (input) => {
     } catch (error) {
         alert('An error occurred: ' + error.message);
     } finally {
-        emailButton.disabled = true; // Enable the button again
-        emailSpinner.remove(); // Remove the spinner from the button
+        emailButton.disabled = false; // Fixed: Enable the button when done
+        emailSpinner.remove();
     }
 };
 

@@ -139,6 +139,7 @@ const generateEmailDraft = async (input) => {
         // Determine the appropriate system prompt based on input combinations
         let systemPrompt = '';
         if (draftContent && draftHints) {
+            showMessage('draftContent && draftHints', true);
             systemPrompt = `As a Project Manager, modify the following draft email based on the provided hints and requirements:
 
             Original Draft:
@@ -149,6 +150,7 @@ const generateEmailDraft = async (input) => {
 
             Please maintain a professional tone while incorporating the requested changes.`;
         } else if (draftContent) {
+            showMessage('draftContent only', true);
             systemPrompt = `As a Project Manager, improve and refine the following draft email:
 
             Original Draft:
@@ -156,6 +158,7 @@ const generateEmailDraft = async (input) => {
 
             Please enhance the content while maintaining the core message and ensuring a professional tone.`;
         } else if (draftHints) {
+            showMessage('draftHints only', true);
             systemPrompt = `As a Project Manager, generate a reply email based on the following requirements and guidelines:
 
             Requirements:
@@ -163,6 +166,7 @@ const generateEmailDraft = async (input) => {
 
             Please ensure the response is professional, clear, and addresses all the specified points.`;
         } else {
+            showMessage('Positive Response', true);
             systemPrompt = `As a Project Manager, generate a positive and professional reply email. 
             The response should be:
             - Constructive and solution-oriented

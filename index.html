@@ -55,22 +55,24 @@
 
     <!-- Input Section -->
     <div class="mx-auto my-5 response-card">
-      <textarea id="inquiryInput" class="form-control mb-3" rows="4" placeholder="Paste email content..."></textarea>
-      <div class="button-container">
+      <div class="d-flex align-items-end gap-3 mb-3">
+        <textarea id="inquiryInput" class="form-control" rows="4" placeholder="Paste email content..."></textarea>
         <button id="submitButton" class="btn btn-primary">Decode Email</button>
-        <select id="draft-type" class="form-select" style="width: auto;">
+      </div>
+      <div id="draft-options" class="mb-3">
+        <textarea id="draft-email-content" class="form-control mb-3" rows="4" placeholder="Paste the email draft to be improvised..."></textarea>
+        <textarea id="draft-hints" class="form-control mb-3" rows="4" placeholder="Provide hints to create or modify the draft email..."></textarea>
+      </div>
+      <div class="button-container">
+        <!-- <select id="draft-type" class="form-select" style="width: auto;">
           <option value="improvise">Improvise draft</option>
           <option value="positive">Generate a positive draft</option>
           <option value="hints">Generate draft using hints</option>
-        </select>
+        </select> -->
         <button id="draft-email" class="btn btn-info">
             <i class="bi bi-envelope me-2"></i> Draft e-mail
             <span id="draft-email-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
         </button>
-      </div>
-      <div id="draft-options" class="mt-3">
-        <textarea id="draft-email-content" class="form-control mb-3" rows="3" placeholder="Draft email content (for reference)..." style="width: auto;"></textarea>
-        <textarea id="draft-hints" class="form-control mb-3" rows="2" placeholder="Enter hints for drafting the email..." style="width: auto;"></textarea>
       </div>
     </div>
 

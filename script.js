@@ -132,27 +132,43 @@ const generateEmailDraft = async (input) => {
     emailButton.disabled = true;
 
     try {
-        // Get the selected draft type and additional inputs
-        const draftType = document.getElementById('draft-type').value;
-        const draftContent = document.getElementById('draft-email-content').value;
-        const draftHints = document.getElementById('draft-hints').value;
+        // Get the additional inputs
+        const draftContent = document.getElementById('draft-email-content').value.trim();
+        const draftHints = document.getElementById('draft-hints').value.trim();
 
-        // Customize the system prompt based on draft type
+        // Determine the appropriate system prompt based on input combinations
         let systemPrompt = '';
-        switch(draftType) {
-            case 'positive':
-                systemPrompt = `Generate a reply email as a Project Manager based on the following input. 
-                Use the provided draft content as reference and maintain a positive, professional tone.
-                Reference draft content: ${draftContent}`;
-                break;
-            case 'hints':
-                systemPrompt = `Generate a reply email as a Project Manager based on the following input.
-                Consider these specific hints/requirements while drafting:
-                ${draftHints}`;
-                break;
-            default: // 'improvise'
-                systemPrompt = `Generate a reply email as a Project Manager based on the following input. 
-                Make sure it is in a professional and positive tone.`;
+        if (draftContent && draftHints) {
+            systemPrompt = `As a Project Manager, modify the following draft email based on the provided hints and requirements:
+
+            Original Draft:
+            ${draftContent}
+
+            Modification Requirements:
+            ${draftHints}
+
+            Please maintain a professional tone while incorporating the requested changes.`;
+        } else if (draftContent) {
+            systemPrompt = `As a Project Manager, improve and refine the following draft email:
+
+            Original Draft:
+            ${draftContent}
+
+            Please enhance the content while maintaining the core message and ensuring a professional tone.`;
+        } else if (draftHints) {
+            systemPrompt = `As a Project Manager, generate a reply email based on the following requirements and guidelines:
+
+            Requirements:
+            ${draftHints}
+
+            Please ensure the response is professional, clear, and addresses all the specified points.`;
+        } else {
+            systemPrompt = `As a Project Manager, generate a positive and professional reply email. 
+            The response should be:
+            - Constructive and solution-oriented
+            - Empathetic and understanding
+            - Clear and actionable
+            - Maintaining a positive professional tone throughout`;
         }
 
         const response = await fetch("https://llmfoundry.straive.com/openai/v1/chat/completions", {
@@ -206,7 +222,7 @@ document.getElementById('draft-email').addEventListener('click', async () => {
 // Event listener for the submit button to trigger postData
 document.addEventListener('DOMContentLoaded', () => {
     const lastInquiry = localStorage.getItem('lastInquiry') || '';
-    document.getElementById('inquiryInput').value = lastInquiry;
+    //document.getElementById('inquiryInput').value = lastInquiry;
 
     document.getElementById('submitButton').addEventListener('click', async () => {
         const input = document.getElementById('inquiryInput').value;

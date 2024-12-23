@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const emailDisplay = document.getElementById('emailDisplay');
-    const emailPassword = document.getElementById('emailPassword');
-    const authenticateBtn = document.getElementById('authenticateBtn');
+    const otpInput = document.getElementById('otpInput');
+    const requestOtpBtn = document.getElementById('requestOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
     const clearAuthBtn = document.getElementById('clearAuthBtn');
     const authStatus = document.getElementById('authStatus');
-    const spinner = authenticateBtn.querySelector('.spinner-border');
+    const otpSpinner = document.querySelector('.spinner-border');
 
-    // Predefined credentials (in a real app, this should be handled securely)
-    const validCredentials = [
-        { email: 'user@example.com', password: 'password123' },
-        { email: 'admin@example.com', password: 'admin123' }
-    ];
+    // Store OTP and its expiration time
+    let currentOTP = null;
+    let otpExpiration = null;
+    const OTP_VALIDITY_MINUTES = 5;
 
-    // Check if already authenticated
+    // Check authentication status
     const checkAuthStatus = () => {
         const isAuthenticated = localStorage.getItem('emailAuth');
         const userEmail = localStorage.getItem('userEmail');
@@ -22,83 +22,139 @@ document.addEventListener('DOMContentLoaded', () => {
             authStatus.textContent = 'Authenticated';
             authStatus.className = 'badge status-badge bg-success';
             emailDisplay.disabled = true;
-            emailPassword.disabled = true;
-            authenticateBtn.disabled = true;
+            otpInput.disabled = true;
+            requestOtpBtn.disabled = true;
+            verifyOtpBtn.disabled = true;
         } else {
             emailDisplay.value = '';
             emailDisplay.disabled = false;
+            otpInput.disabled = false;
+            requestOtpBtn.disabled = false;
             authStatus.textContent = 'Not Authenticated';
             authStatus.className = 'badge status-badge bg-danger';
         }
     };
 
-    // Initial status check
-    checkAuthStatus();
+    // Generate a 6-digit OTP
+    const generateOTP = () => {
+        return Math.floor(100000 + Math.random() * 900000).toString();
+    };
 
-    // Handle authentication
-    authenticateBtn.addEventListener('click', async () => {
+    // Request OTP
+    requestOtpBtn.addEventListener('click', async () => {
         const email = emailDisplay.value.trim();
-        const password = emailPassword.value;
-
-        if (!email || !password) {
-            alert('Please enter both email and password');
+        
+        if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            showToast('Please enter a valid email address', true);
             return;
         }
 
-        // Show loading state
-        spinner.classList.remove('d-none');
-        authenticateBtn.disabled = true;
+        otpSpinner.classList.remove('d-none');
+        requestOtpBtn.disabled = true;
 
         try {
-            // Simulate network delay
+            // Generate new OTP and set expiration
+            currentOTP = generateOTP();
+            otpExpiration = new Date(Date.now() + OTP_VALIDITY_MINUTES * 60000);
+
+            // Simulate sending OTP via email (in production, this would call your backend)
             await new Promise(resolve => setTimeout(resolve, 1000));
-
-            // Check credentials
-            const isValid = validCredentials.some(cred => 
-                cred.email === email && cred.password === password
-            );
-
-            if (isValid) {
-                // Store authentication status
-                localStorage.setItem('emailAuth', 'true');
-                localStorage.setItem('userEmail', email);
-                
-                // Update UI
-                authStatus.textContent = 'Authenticated';
-                authStatus.className = 'badge status-badge bg-success';
-                emailPassword.disabled = true;
-                emailDisplay.disabled = true;
-                
-                showToast('Authentication successful!');
-            } else {
-                throw new Error('Invalid email or password');
-            }
+            
+            // For demo purposes, show OTP in console (remove in production)
+            console.log(`OTP for ${email}: ${currentOTP}`);
+            
+            showToast(`OTP sent to ${email}. Valid for ${OTP_VALIDITY_MINUTES} minutes.`);
+            otpInput.disabled = false;
+            verifyOtpBtn.disabled = false;
+            
+            // Start OTP timer
+            startOTPTimer();
         } catch (error) {
-            showToast(error.message, true);
-            authStatus.textContent = 'Authentication Failed';
-            authStatus.className = 'badge status-badge bg-danger';
+            showToast('Failed to send OTP. Please try again.', true);
         } finally {
-            spinner.classList.add('d-none');
-            authenticateBtn.disabled = false;
+            otpSpinner.classList.add('d-none');
+            requestOtpBtn.disabled = false;
         }
     });
 
-    // Handle clearing authentication
+    // Verify OTP
+    verifyOtpBtn.addEventListener('click', async () => {
+        const enteredOTP = otpInput.value.trim();
+        
+        if (!enteredOTP) {
+            showToast('Please enter the OTP', true);
+            return;
+        }
+
+        if (!currentOTP || !otpExpiration || Date.now() > otpExpiration) {
+            showToast('OTP has expired. Please request a new one.', true);
+            return;
+        }
+
+        verifyOtpBtn.disabled = true;
+        otpSpinner.classList.remove('d-none');
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            if (enteredOTP === currentOTP) {
+                localStorage.setItem('emailAuth', 'true');
+                localStorage.setItem('userEmail', emailDisplay.value);
+                showToast('Authentication successful!');
+                checkAuthStatus();
+            } else {
+                throw new Error('Invalid OTP');
+            }
+        } catch (error) {
+            showToast(error.message, true);
+        } finally {
+            otpSpinner.classList.add('d-none');
+            verifyOtpBtn.disabled = false;
+        }
+    });
+
+    // Clear authentication
     clearAuthBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to clear authentication?')) {
             localStorage.removeItem('emailAuth');
             localStorage.removeItem('userEmail');
             emailDisplay.value = '';
-            emailDisplay.disabled = false;
-            emailPassword.value = '';
-            emailPassword.disabled = false;
-            authenticateBtn.disabled = false;
+            otpInput.value = '';
+            currentOTP = null;
+            otpExpiration = null;
             checkAuthStatus();
             showToast('Authentication cleared');
         }
     });
 
-    // Toast notification function
+    // Start OTP timer
+    const startOTPTimer = () => {
+        const timerDisplay = document.getElementById('otpTimer');
+        
+        const updateTimer = () => {
+            if (!otpExpiration) return;
+            
+            const now = Date.now();
+            const timeLeft = otpExpiration - now;
+            
+            if (timeLeft <= 0) {
+                timerDisplay.textContent = 'OTP Expired';
+                currentOTP = null;
+                otpExpiration = null;
+                verifyOtpBtn.disabled = true;
+                return;
+            }
+            
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            timerDisplay.textContent = `OTP expires in: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+            requestAnimationFrame(updateTimer);
+        };
+        
+        updateTimer();
+    };
+
+    // Toast notification
     const showToast = (message, isError = false) => {
         const toastDiv = document.createElement('div');
         toastDiv.className = `toast align-items-center border-0 ${isError ? 'text-bg-danger' : 'text-bg-success'} position-fixed top-0 end-0 m-3`;
@@ -114,4 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         toast.show();
         setTimeout(() => toastDiv.remove(), 3000);
     };
+
+    // Initial status check
+    checkAuthStatus();
 }); 

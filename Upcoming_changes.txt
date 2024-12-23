@@ -1,0 +1,34 @@
+<!-- Changes expected:
+
+Main Menu 
+ProjectPal: Friendly and approachable.
+
+
+App module: Email Decoder
+
+1. Create a drop-down with the following (This should be an expansion to the draft email option): <<updated in ver 1.1>>
+  a) draft a positive response to the email
+  b) draft an email using the hints provided (in this case receive the hints as input from the user)
+  c) improvise the draft created by the user (accept the draft as input from the user)
+2. Decoder to flag severity based on the impact
+3. Reset button to clear the fields
+
+App module: The Email Alchemist -- Suggests transforming raw emails into valuable insights. or Message Maestro: Suggests a tool that expertly manages and summarizes emails. or Thread Weaver: A more creative take on understanding email threads.
+1. Authenticate Inbox
+  a) Create a screen to read the logged in user or input an email Address
+  b) setup authentication to the user's inbox by sending an email to the specified email Address
+  c) Display the authentication status on the home page once this app is opened from the Main Menu
+2. Create a page for the Alchemist's playground
+  a) Options to provide hints or what insights the LLM should look for
+  b) Provide basic search options such as from email ID, specific subject (keywords), etc.
+  c) Mention if the LLM should filter for a specific sentiment category such as negative, positive, or all
+  d) Specify the format of the output such as tabular column, with key headings, etc. Provide drop-down to choose pre-defined formats
+  e) Provide a "copy to clipboard" button
+  f) Provide forward to a specific email ID option
+
+
+App module: Foresight Hub: Focuses on the tool's ability to predict and prepare for the future. or Momentum Monitor: Highlights the tool's ability to track progress and maintain momentum. or Project Citadel: Suggests a strong, secure place for the project. or The Sentinel: A classic term for a watchful guardian.
+
+1. Perform a health status of the project by running through emails, schedules, outstanding tasks and Summarize the health status such as risks, suggestions, etc.
+2. This can include upcoming holidays, number of corrections, etc.
+

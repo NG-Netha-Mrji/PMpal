@@ -10,7 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Store OTP and its expiration time
     let currentOTP = null;
     let otpExpiration = null;
-    const OTP_VALIDITY_MINUTES = 5;
+    const OTP_VALIDITY_MINUTES = 2;
+
+    // EmailJS configuration
+    const EMAIL_SERVICE_ID = 'service_nhs5vl5';
+    const EMAIL_TEMPLATE_ID = 'template_bcz5qpp';
+    const EMAIL_PUBLIC_KEY = '8_WLGJHvcU42CAPVF';
 
     // Check authentication status
     const checkAuthStatus = () => {
@@ -57,11 +62,20 @@ document.addEventListener('DOMContentLoaded', () => {
             currentOTP = generateOTP();
             otpExpiration = new Date(Date.now() + OTP_VALIDITY_MINUTES * 60000);
 
-            // Simulate sending OTP via email (in production, this would call your backend)
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // For demo purposes, show OTP in console (remove in production)
-            console.log(`OTP for ${email}: ${currentOTP}`);
+            // Send OTP via EmailJS
+            const emailParams = {
+                to_email: email,
+                otp_code: currentOTP,
+                validity_minutes: OTP_VALIDITY_MINUTES,
+                to_name: email.split('@')[0] // Use part before @ as name
+            };
+
+            await emailjs.send(
+                EMAIL_SERVICE_ID,
+                EMAIL_TEMPLATE_ID,
+                emailParams,
+                EMAIL_PUBLIC_KEY
+            );
             
             showToast(`OTP sent to ${email}. Valid for ${OTP_VALIDITY_MINUTES} minutes.`);
             otpInput.disabled = false;
@@ -70,6 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Start OTP timer
             startOTPTimer();
         } catch (error) {
+            console.error('Failed to send OTP:', error);
             showToast('Failed to send OTP. Please try again.', true);
         } finally {
             otpSpinner.classList.add('d-none');

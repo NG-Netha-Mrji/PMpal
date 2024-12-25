@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearAuthBtn = document.getElementById('clearAuthBtn');
     const authStatus = document.getElementById('authStatus');
     const otpSpinner = document.querySelector('.spinner-border');
+    const mailboxAuthBtn = document.getElementById('mailboxAuthBtn');
 
     // Store OTP and its expiration time
     let currentOTP = null;
@@ -21,11 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkAuthStatus = () => {
         const isAuthenticated = localStorage.getItem('emailAuth');
         const userEmail = localStorage.getItem('userEmail');
+        const mailboxAuth = localStorage.getItem('mailboxAuth');
         
         if (isAuthenticated && userEmail) {
             emailDisplay.value = userEmail;
-            authStatus.textContent = 'Authenticated';
-            authStatus.className = 'badge status-badge bg-success';
+            if (mailboxAuth === 'true') {
+                authStatus.textContent = 'Mailbox Authenticated';
+                authStatus.className = 'badge status-badge bg-success';
+                mailboxAuthBtn.disabled = false;
+                mailboxAuthBtn.classList.remove('d-none');
+            } else {
+                authStatus.textContent = 'Email Verified';
+                authStatus.className = 'badge status-badge bg-warning';
+                mailboxAuthBtn.disabled = false;
+                mailboxAuthBtn.classList.remove('d-none');
+            }
             emailDisplay.disabled = true;
             otpInput.disabled = true;
             requestOtpBtn.disabled = true;
@@ -35,10 +46,74 @@ document.addEventListener('DOMContentLoaded', () => {
             emailDisplay.disabled = false;
             otpInput.disabled = false;
             requestOtpBtn.disabled = false;
+            mailboxAuthBtn.classList.add('d-none');
             authStatus.textContent = 'Not Authenticated';
             authStatus.className = 'badge status-badge bg-danger';
         }
     };
+
+    // Mailbox Authentication
+    mailboxAuthBtn.addEventListener('click', async () => {
+        const email = emailDisplay.value;
+        
+        try {
+            mailboxAuthBtn.disabled = true;
+            otpSpinner.classList.remove('d-none');
+
+            // Open OAuth popup window for email provider
+            const authWindow = window.open(
+                `https://accounts.google.com/o/oauth2/v2/auth?` +
+                `client_id=YOUR_CLIENT_ID` +
+                `&redirect_uri=${encodeURIComponent(window.location.origin + '/oauth-callback')}` +
+                `&response_type=code` +
+                `&scope=https://mail.google.com/` +
+                `&access_type=offline` +
+                `&prompt=consent` +
+                `&login_hint=${encodeURIComponent(email)}`,
+                'Email Authorization',
+                'width=600,height=700'
+            );
+
+            // Handle OAuth callback
+            window.addEventListener('message', async (event) => {
+                if (event.origin !== window.location.origin) return;
+                
+                if (event.data.type === 'oauth-callback') {
+                    const { code } = event.data;
+                    
+                    // Exchange authorization code for access token
+                    const tokenResponse = await fetch('/api/exchange-token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ code })
+                    });
+
+                    if (tokenResponse.ok) {
+                        const { access_token, refresh_token } = await tokenResponse.json();
+                        
+                        // Store tokens securely
+                        localStorage.setItem('mailboxAuth', 'true');
+                        localStorage.setItem('accessToken', access_token);
+                        localStorage.setItem('refreshToken', refresh_token);
+                        
+                        showToast('Mailbox authentication successful!');
+                        checkAuthStatus();
+                    } else {
+                        throw new Error('Failed to authenticate mailbox');
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error('Mailbox authentication failed:', error);
+            showToast('Failed to authenticate mailbox. Please try again.', true);
+        } finally {
+            otpSpinner.classList.add('d-none');
+            mailboxAuthBtn.disabled = false;
+        }
+    });
 
     // Generate a 6-digit OTP
     const generateOTP = () => {

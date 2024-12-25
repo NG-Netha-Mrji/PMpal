@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         // Check authentication status from localStorage
-        const authStatus = localStorage.getItem('authStatus');
+        const authStatus = localStorage.getItem('emailAuth');
         const userEmail = localStorage.getItem('userEmail');
         
-        if (!authStatus || authStatus !== 'authenticated') {
+        if (!authStatus || authStatus !== 'true') {
             // Show error message using Bootstrap alert
             const resultsContainer = document.getElementById('resultsContainer');
             resultsContainer.innerHTML = `

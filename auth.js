@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Load the Google API Client Library
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/api.js';
+    document.body.appendChild(script);
+
+    script.onload = () => {
+        gapi.load('client:auth2', initClient);
+    };
+
+    function initClient() {
+        gapi.client.init({
+            clientId: '746662336433-f8v8vpepmjp22mlvgutl0o4gno44h5kn.apps.googleusercontent.com',
+            scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.labels email profile',
+            plugin_name: 'PM Pal'
+        });
+    }
+
     const emailDisplay = document.getElementById('emailDisplay');
     const otpInput = document.getElementById('otpInput');
     const requestOtpBtn = document.getElementById('requestOtpBtn');
@@ -14,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const OTP_VALIDITY_MINUTES = 2;
 
     // EmailJS configuration
-    const EMAIL_SERVICE_ID = 'service_nhs5vl5';
+    const EMAIL_SERVICE_ID = 'service_8muvras';
     const EMAIL_TEMPLATE_ID = 'template_bcz5qpp';
     const EMAIL_PUBLIC_KEY = '8_WLGJHvcU42CAPVF';
 
@@ -29,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (mailboxAuth === 'true') {
                 authStatus.textContent = 'Mailbox Authenticated';
                 authStatus.className = 'badge status-badge bg-success';
-                mailboxAuthBtn.disabled = false;
+                mailboxAuthBtn.disabled = true;
                 mailboxAuthBtn.classList.remove('d-none');
             } else {
                 authStatus.textContent = 'Email Verified';
@@ -60,57 +77,23 @@ document.addEventListener('DOMContentLoaded', () => {
             mailboxAuthBtn.disabled = true;
             otpSpinner.classList.remove('d-none');
 
-            // Updated OAuth configuration with correct scopes and parameters
-            const authWindow = window.open(
-                `https://accounts.google.com/o/oauth2/v2/auth?` +
-                `client_id=746662336433-f8v8vpepmjp22mlvgutl0o4gno44h5kn.apps.googleusercontent.com` +
-                `&redirect_uri=${encodeURIComponent('http://localhost:8080/oauth2callback')}` +
-                `&response_type=code` +
-                `&scope=${encodeURIComponent([
-                    'https://www.googleapis.com/auth/gmail.readonly',
-                    'https://www.googleapis.com/auth/gmail.modify',
-                    'https://www.googleapis.com/auth/gmail.labels',
-                    'email',
-                    'profile'
-                ].join(' '))}` +
-                `&access_type=offline` +
-                `&prompt=consent select_account` +
-                `&login_hint=${encodeURIComponent(email)}`,
-                'Email Authorization',
-                'width=600,height=700'
-            );
-
-            // Handle OAuth callback
-            window.addEventListener('message', async (event) => {
-                if (event.origin !== window.location.origin) return;
-                
-                if (event.data.type === 'oauth-callback') {
-                    const { code } = event.data;
-                    
-                    // Exchange authorization code for access token
-                    const tokenResponse = await fetch('/api/exchange-token', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ code })
-                    });
-
-                    if (tokenResponse.ok) {
-                        const { access_token, refresh_token } = await tokenResponse.json();
-                        
-                        // Store tokens securely
-                        localStorage.setItem('mailboxAuth', 'true');
-                        localStorage.setItem('accessToken', access_token);
-                        localStorage.setItem('refreshToken', refresh_token);
-                        
-                        showToast('Mailbox authentication successful!');
-                        checkAuthStatus();
-                    } else {
-                        throw new Error('Failed to authenticate mailbox');
-                    }
-                }
+            // Use Google Sign-In
+            const googleAuth = gapi.auth2.getAuthInstance();
+            const user = await googleAuth.signIn({
+                login_hint: email,
+                prompt: 'consent select_account'
             });
+
+            if (user) {
+                const authResponse = user.getAuthResponse(true);
+                // Store tokens
+                localStorage.setItem('mailboxAuth', 'true');
+                localStorage.setItem('accessToken', authResponse.access_token);
+                localStorage.setItem('userEmail', user.getBasicProfile().getEmail());
+                
+                showToast('Mailbox authentication successful!');
+                checkAuthStatus();
+            }
 
         } catch (error) {
             console.error('Mailbox authentication failed:', error);

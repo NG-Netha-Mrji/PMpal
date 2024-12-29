@@ -1,0 +1,18 @@
+Landing page
+    - [Create the navigation bar separated out so that links need not be updated in all pages] 
+    - [re-design the page to a vertical Nav bar on the left with menu items and short descriptions] 
+    - [Retain the Nav bar on the top with basic information such as user info, authentication status, authenticated email ID as tooltip, etc.] 
+
+Email Authentication
+    - [disable request otp button until the time is up] 
+    - [stop the timer once authentication has been completed or the timer has expired] 
+    - [update clear authentication button to clear the mailbox authentication as well as the access token and refresh token]
+    - [show the authentication status in the Nav bar] 
+
+The e-Alchemist
+    - [provide default options for insights or free-text when the user chooses 'other'] 
+    - [display the defalut prompt options so that users do not repeat them] 
+    - [Resize and rename the analysis button] 
+    - [provide 'copy to clipboard' feature to copy the results of the analysis] 
+    - [] 
+    - [] 

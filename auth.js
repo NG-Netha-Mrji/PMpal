@@ -60,15 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
             mailboxAuthBtn.disabled = true;
             otpSpinner.classList.remove('d-none');
 
-            // Open OAuth popup window for email provider
+            // Updated OAuth configuration with correct scopes and parameters
             const authWindow = window.open(
                 `https://accounts.google.com/o/oauth2/v2/auth?` +
-                `client_id=YOUR_CLIENT_ID` +
-                `&redirect_uri=${encodeURIComponent(window.location.origin + '/oauth-callback')}` +
+                `client_id=746662336433-f8v8vpepmjp22mlvgutl0o4gno44h5kn.apps.googleusercontent.com` +
+                `&redirect_uri=${encodeURIComponent('http://localhost:8080/oauth2callback')}` +
                 `&response_type=code` +
-                `&scope=https://mail.google.com/` +
+                `&scope=${encodeURIComponent([
+                    'https://www.googleapis.com/auth/gmail.readonly',
+                    'https://www.googleapis.com/auth/gmail.modify',
+                    'https://www.googleapis.com/auth/gmail.labels',
+                    'email',
+                    'profile'
+                ].join(' '))}` +
                 `&access_type=offline` +
-                `&prompt=consent` +
+                `&prompt=consent select_account` +
                 `&login_hint=${encodeURIComponent(email)}`,
                 'Email Authorization',
                 'width=600,height=700'

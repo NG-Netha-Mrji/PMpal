@@ -1,11 +1,17 @@
-Landing page
+General
+    - [Create a help menu describing short notes about each feature] 
+    - [use an appropriate background image on all pages]
     - [Create the navigation bar separated out so that links need not be updated in all pages] 
     - [re-design the page to a vertical Nav bar on the left with menu items and short descriptions] 
-    - [Retain the Nav bar on the top with basic information such as user info, authentication status, authenticated email ID as tooltip, etc.] 
+    - [Retain the Nav bar on the top with basic information such as user info, authentication status, authenticated email ID as tooltip, etc.]
+    - [Use the footer to go to the bottom in all pages]
+ 
 
 Email Authentication
-    - [disable request otp button until the time is up] 
-    - [stop the timer once authentication has been completed or the timer has expired] 
+      - [disable request otp button until the time is up] 
+      - [stop the timer once authentication has been completed or the timer has expired] 
+    - [alternatively remove the OTP authentication completely]
+    
     - [update clear authentication button to clear the mailbox authentication as well as the access token and refresh token]
     - [show the authentication status in the Nav bar] 
 

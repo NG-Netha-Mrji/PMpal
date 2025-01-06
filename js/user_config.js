@@ -195,12 +195,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clear authentication
     clearAuthBtn.addEventListener('click', () => {
         if (confirm('Are you sure you want to clear authentication?')) {
+            // Clear localStorage items
             localStorage.removeItem('emailAuth');
             localStorage.removeItem('userEmail');
+            localStorage.removeItem('mailboxAuth');
+            localStorage.removeItem('accessToken');
+
+            // Clear form inputs
             emailDisplay.value = '';
             otpInput.value = '';
             currentOTP = null;
             otpExpiration = null;
+
+            // Sign out from Google if authenticated
+            const googleAuth = gapi.auth2?.getAuthInstance();
+            if (googleAuth) {
+                googleAuth.signOut();
+            }
+
             checkAuthStatus();
             showToast('Authentication cleared');
         }

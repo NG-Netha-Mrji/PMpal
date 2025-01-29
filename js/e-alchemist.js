@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function parseSearchContent(searchContent) {
         console.log('Original search content:', searchContent);
         const searchTerms = searchContent.split(/\s+/);
-        console.log('Split search terms:', searchTerms);
+        //console.log('Split search terms:', searchTerms);
         
         let formattedQuery = [];
         
         searchTerms.forEach(term => {
-            console.log('Processing term:', term);
+            //console.log('Processing term:', term);
             
             // Check for explicit Gmail operators
             if (term.toLowerCase().startsWith('from:') ||
@@ -18,27 +18,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 term.toLowerCase().startsWith('after:') ||
                 term.toLowerCase().startsWith('before:') ||
                 term.toLowerCase().startsWith('has:')) {
-                console.log('Found Gmail operator:', term);
+                //console.log('Found Gmail operator:', term);
                 formattedQuery.push(term);
             }
             // Check for email addresses without operators
             else if (term.includes('@')) {
-                console.log('Found email address, adding from: operator:', term);
+                //console.log('Found email address, adding from: operator:', term);
                 formattedQuery.push(`from:${term}`);
             }
             // Check for date patterns (YYYY/MM/DD or YYYY-MM-DD)
             else if (/^\d{4}[-/]\d{2}[-/]\d{2}$/.test(term)) {
-                console.log('Found date pattern, adding after: operator:', term);
+                //console.log('Found date pattern, adding after: operator:', term);
                 formattedQuery.push(`after:${term}`);
             }
             // Regular search terms
             else {
                 // If term contains spaces or special characters, wrap in quotes
                 if (/[\s"']/.test(term)) {
-                    console.log('Found term with spaces/special chars, adding quotes:', term);
+                   // console.log('Found term with spaces/special chars, adding quotes:', term);
                     formattedQuery.push(`"${term.replace(/"/g, '')}"`);
                 } else {
-                    console.log('Adding regular search term:', term);
+                   // console.log('Adding regular search term:', term);
                     formattedQuery.push(term);
                 }
             }
@@ -60,21 +60,20 @@ document.addEventListener('DOMContentLoaded', function() {
                             scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.labels email profile',
                             plugin_name: 'PM Pal'
                         });
-                        
-                        // Check if user is signed in
+    
                         const authInstance = gapi.auth2.getAuthInstance();
+                        // Check if user is signed in
                         if (!authInstance.isSignedIn.get()) {
-                            throw new Error('User not signed in');
+                            await authInstance.signIn(); // Prompt user to sign in
                         }
-
-                        // Get current user's access token and email
+    
                         const currentUser = authInstance.currentUser.get();
                         const profile = currentUser.getBasicProfile();
                         const authResponse = currentUser.getAuthResponse();
-                        
+    
                         localStorage.setItem('accessToken', authResponse.access_token);
                         localStorage.setItem('userEmail', profile.getEmail());
-                        
+    
                         await gapi.client.load('gmail', 'v1');
                         console.log('Gmail API initialized successfully');
                         resolve();
@@ -131,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
             await initializeGoogleAPI();
             const accessToken = localStorage.getItem('accessToken');
             const userEmail = localStorage.getItem('userEmail');
+
+            console.log("Token: " + accessToken);
+            console.log("user email: " + userEmail);
             
             if (!accessToken || !userEmail) {
                 throw new Error('Not authenticated. Please sign in again.');
@@ -165,6 +167,8 @@ document.addEventListener('DOMContentLoaded', function() {
             let emailsWithContent = [];
             let pageToken = null;
             
+            console.log("fetching emails from mailbox");
+
             while (emailsWithContent.length < 10) {
                 const emailsResponse = await gapi.client.gmail.users.messages.list({
                     userId: 'me',
@@ -176,6 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!emailsResponse.result.messages) {
                     break;
                 }
+
+                console.log("Filtering fetched emails");
 
                 const emailDetailsPromises = emailsResponse.result.messages.map(email =>
                     gapi.client.gmail.users.messages.get({
@@ -332,8 +338,9 @@ Use markdown formatting for better readability.`
                 // Display results
                 resultsContainer.innerHTML = `
                     <div class="alert alert-success" role="alert">
-                        <h4 class="alert-heading">Analysis Complete!</h4>
-                        <p>Results for ${userEmail}</p>
+                        <h4 class="alert-heading">Here is the Gist</h4>
+                        <h5 class="alert-heading">Search query</h5>
+                        <p>${searchQuery}</p>
                         <hr>
                         <div class="analysis-content">
                             ${marked.parse(analysisResult)}
@@ -378,10 +385,11 @@ Use markdown formatting for better readability.`
                         copyButton.classList.remove('btn-success');
                         copyButton.classList.add('btn-outline-primary');
                     }, 2000);
-                } catch (err) {
+                } catch (err)
+                 {
                     console.error('Failed to copy text:', err);
                     alert('Failed to copy to clipboard');
-                }
+                 }
             };
 
         } catch (error) {

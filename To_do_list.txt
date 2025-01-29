@@ -1,42 +1,65 @@
 General
     - [Create a help menu describing short notes about each feature] 
     - [use an appropriate background image on all pages]
-    - [Create the navigation bar separated out so that links need not be updated in all pages] 
+    - [Create the navigation bar separated out so that links need not be updated in all pages] - <<updated in V1.2>>
     - [re-design the page to a vertical Nav bar on the left with menu items and short descriptions] 
     - [Retain the Nav bar on the top with basic information such as user info, authentication status, authenticated email ID as tooltip, etc.]
-    - [Use a default footer to go to the bottom in all pages]
+    - [Use a default footer to go to the bottom in all pages] - <<updated in V1.2>>
+    - [Create an appropriate logo for PMpal to be set in the browser tab]
+    - [Generate a log to capture all executions to LLM, email ID, date and time, service requested,etc. in a table format with date as stubbed row] 
+    - [display a timer on the nav bar to show the active logged in duration of the user]
 
 Configuration
-    - [Create a configruation page with the following features] 
-    - [Choose the AI service provider- dropd-down to choose from available options LLM, ChatGPT, Gemini, etc.]
+    - [Create a configruation page with the following features]  - <<updated in V1.2>>
+    - [Choose the AI service provider- drop-down to choose from available options LLM, ChatGPT, Gemini, etc.]
     - [Based on this selection the APIs should trigger]
-    - [Choose if calendar events will need to set automatically or provide them as suggesions]
-    - [Maibox authentication to be a part of this page]
+    - [Choose if calendar events will need to be set automatically or provide them as suggestions]
+    - [Maibox authentication to be a part of this page] - <<updated in V1.2>>
     - [Use the OTP feature when Configuration changes need to be saved, an additional layer of protection]
-
-Email Decoder
-    - [Modify the code to add events to the calendar appropriately based on the setting in the configruation] 
-    - [Provide a button in the decoder page to set calendar events based on the results]
-
-
-
-Email Authentication
-      - [disable request otp button until the time is up] 
+    - [Pull the labels from the mailbox and display them in a drop-down for the user to choose the ones that need to be used for monitoring]
+    - [set the monitoring frequency such as hourly, once in X hours, or day frequency]
+    
+    
+    - [disable request otp button until the time is up] 
       - [stop the timer once authentication has been completed or the timer has expired] 
     - [alternatively remove the OTP authentication completely]
     
     - [update clear authentication button to clear the mailbox authentication as well as the access token and refresh token]
-    - [show the authentication status in the Nav bar]
-    - [disable the mailbox authentication button upon successful authentication]
+    - [show the authentication status in the Nav bar] - <<updated in V1.2>>
+    - [disable the mailbox authentication button upon successful authentication] - <<updated in V1.2>>
+
+Email Decoder ***Fix the position of the 'copy to clipboard' button
+    - [Introduce a 'Try me' button to use a specific example] 
+    - [Modify the code to add events to the calendar appropriately based on the setting in the configruation] 
+    - [Provide a button in the decoder page to set calendar events based on the results]
+    - [Seperate the decoded results and draft email into 2 tabs and use a common copy to clipboard button similar to the e-Alchemist]
+      
 
 The e-Alchemist
+    - [Introduce a 'Try me' button to use a specific example]
+    - [Provide tick boxes to include 'sent items' to generate insights - keep them on the left vertical panel if possible] 
+    - [Setup calendar events based on the reminders from the insights]
     - [provide default options for insights or free-text when the user chooses 'other'] 
     - [display the defalut prompt options so that users do not repeat them] 
-    - [Resize and rename the analysis button] -- updated in v1.2
-    - [provide 'copy to clipboard' feature to copy the results of the analysis] -- updated in v1.2
-    - [] 
+    - [Resize and rename the analysis button] - <<updated in V1.2>>
+    - [provide 'copy to clipboard' feature to copy the results of the analysis] - <<updated in V1.2>>
+    - [display the emails used to perform the analysis in a separate tab] - <<updated in V1.2>> 
     - [] 
 
     
-Email Organizer
-    - [provide suggestions to label emails appropriately] 
+Email Organizer 
+    - [objective is to have a 0 inbox (search criteria should be only for emails marked to the recepient not in the cc or bcc)]
+    - [provide suggestions to organize emails appropriately - apply labels, star them, set reminders, etc.]
+    - [create a "to_respond" label and apply to emails that demand a response]
+    - [create a "for_action" label and apply to emails that have an action for the recepient in the received email]
+    - [Mark other emails as "for_reference"]
+    - **** this should help manage the inbox effectively****
+
+
+Email Calendar
+    - [Create events in a shared calendar based on email content using the stakeholder name/email ID in the subject]
+    - [provide insights based on agenda, participants, etc using the meetings scheduled for the specified period, usually a week]
+
+My Calendar
+    - [Display a calendar with events based on the search criteria such as meeting title, dates, participants, etc. from the individual calendar]
+    - [Display a calendar with events based on the search criteria such as meeting title, dates, participants, etc. from the shared calendar]

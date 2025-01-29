@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Pal - e-Alchemist</title>
+    <!-- Bootstrap and Icons CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 960px;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid var(--bs-border-color);
+            border-radius: var(--bs-border-radius);
+            background-color: var(--bs-body-bg);
+        }
+
+        .results-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid var(--bs-border-color);
+            border-radius: var(--bs-border-radius);
+            background-color: var(--bs-body-bg);
+            min-height: 200px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .execute-btn {
+            margin-top: 20px;
+        }
+
+        .scrollable-content {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Custom scrollbar styling */
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .scrollable-content::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Email cards styling */
+        .email-item {
+            margin-bottom: 1rem;
+        }
+
+        .email-item pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Analysis content styling */
+        .analysis-content {
+            padding: 15px;
+        }
+
+        /* Keep the copy button visible */
+        #copyButtonContainer {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 10px 0;
+            border-top: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Placeholder -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container mt-4">
+            <h1 class="mb-4"><i class="bi bi-magic"></i> The e-Alchemist</h1>
+            
+            <div class="search-container">
+                <form id="searchForm">
+                    <!-- Search Content -->
+                    <div class="mb-3">
+                        <label for="searchContent" class="form-label">Search Content</label>
+                        <textarea class="form-control" id="searchContent" rows="4" 
+                            placeholder="Examples of supported search formats:
+                                        from:user@example.com subject:meeting
+                                        has:attachment after:2024-01-01
+                                        project status 'urgent meeting'
+                                        to:team@company.com label:important
+
+                                        Supported operators: from:, to:, subject:, label:, after:, before:, has:
+                                        Email addresses are automatically prefixed with from:
+                                        Dates (YYYY-MM-DD) are automatically prefixed with after:
+                                        Terms with spaces are automatically quoted"></textarea>
+                    </div>
+
+                    <!-- Required Insights -->
+                    <div class="mb-3">
+                        <label for="insights" class="form-label">Required Insights</label>
+                        <textarea class="form-control" id="insights" rows="2" 
+                            placeholder="What specific insights are you looking for? (e.g., action items, risks, deadlines). Leave this blank for default Insights"></textarea>
+                    </div>
+
+                    <!-- Output Format -->
+                    <div class="mb-3">
+                        <label for="outputFormat" class="form-label">Output Format</label>
+                        <select class="form-select" id="outputFormat">
+                            <option value="keypoints">Key Points with Headings</option>
+                            <option value="table">Tabular Output</option>
+                            <option value="summary">Executive Summary</option>
+                        </select>
+                    </div>
+
+                    <!-- Execute Button -->
+                    <div class="d-flex justify-content-center execute-btn">
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-lightbulb-fill text-warning me-1"></i> Get the Gist
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section mt-4">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs d-none" id="resultTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysisContent" type="button" role="tab">
+                            <i class="bi bi-graph-up"></i> Analysis
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="emails-tab" data-bs-toggle="tab" data-bs-target="#emailsContent" type="button" role="tab">
+                            <i class="bi bi-envelope"></i> Show Emails
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="resultsTabContent">
+                    <!-- Analysis Tab -->
+                    <div class="tab-pane fade show active" id="analysisContent" role="tabpanel">
+                        <div class="results-container scrollable-content" id="resultsContainer">
+                            <p class="text-muted text-center">Email insights will appear here...</p>
+                        </div>
+                    </div>
+
+                    <!-- Emails Tab -->
+                    <div class="tab-pane fade" id="emailsContent" role="tabpanel">
+                        <div class="results-container scrollable-content" id="emailsContainer">
+                            <div class="mb-3">
+                                <h5>Search Query</h5>
+                                <pre class="bg-light p-3 rounded" id="searchQueryDisplay"></pre>
+                            </div>
+                            <div id="emailsList">
+                                <p class="text-muted text-center">Email contents will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copy Button (Initially Hidden) - Moved outside tabs -->
+                <div class="d-flex justify-content-end mt-3" id="copyButtonContainer" style="display: none !important;">
+                    <button class="btn btn-outline-primary" id="copyButton">
+                        <i class="bi bi-clipboard"></i> Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/components.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/e-alchemist.js"></script>
+</body>
+</html> 

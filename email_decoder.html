@@ -2,78 +2,158 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-mail Decoder</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-mail Decoder</title>
 
-  <!-- Updated Bootstrap and added Bootstrap icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    .response-card {
-      max-width: 40rem;
-    }
-    .button-container {
-      display: flex;
-      gap: 10px;
-    }
-  </style>
+    <!-- Updated Bootstrap and added Bootstrap icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .response-card {
+            max-width: 40rem;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-content {
+            padding: 20px 0;
+        }
+
+        /* Keep the copy button visible */
+        #copyButtonContainer {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 10px 0;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .response-section {
+            margin-top: 20px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
 <body>
-  <!-- Navigation Bar -->
-  <div id="navbar-placeholder"></div>
+    <!-- Navigation Bar -->
+    <div id="navbar-placeholder"></div>
+
+    <main>
+        <!-- Main Content -->
+        <div class="container">
+            <h1 class="mt-5 text-center">Mail Mind</h1>
+
+            <div class="mx-auto my-5 response-card">
+                <p>The Email <strong>Decoder</strong> and Email <strong>Drafter</strong> is a versatile feature designed to enhance your email communication experience using <strong>LLM</strong>.
+                     This powerful feature allows users to decode complex email formats, making it easier to understand and interpret messages that may contain encoded content or intricate formatting.
+                    <br>
+                    Additionally, the Email Drafter feature empowers users to create <strong>professional</strong> and <strong>solution-oriented replies</strong> effortlessly,
+                     with customizable and intuitive editing options to improve customer satisfaction and reduce iterative communication.
+                <p>
+                     Whether you need to decode a challenging email or draft a compelling message, this tool streamlines the process, saving you time and ensuring clarity in your communications.
+                </p>
+            </div>
+          
+        <div class="results-section mt-4"></div>
+          
+          <!-- Tabs Navigation -->
+            <ul class="nav nav-tabs" id="emailTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="decoder-tab" data-bs-toggle="tab" data-bs-target="#decoder"
+                        type="button" role="tab">
+                        <i class="bi bi-search"></i> Decoder
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button"
+                        role="tab">
+                        <i class="bi bi-pencil-square"></i> Drafter
+                    </button>
+                </li>
+            </ul>
 
 
-  <main>
 
-  <!-- Main Content -->
-  <div class="container">
-    <h1 class="mt-5 text-center">Email Decoder</h1>
+            <!-- Tabs Content -->
+            <div class="tab-content" id="emailTabsContent">
+                <!-- Decoder Tab -->
+                <div class="tab-pane fade show active" id="decoder" role="tabpanel">
+                    <div class="mx-auto response-card">
+                        <div class="d-flex align-items-end gap-3 mb-3">
+                            <textarea id="inquiryInput" class="form-control" rows="7"
+                                placeholder="Paste email content here..."></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center execute-btn">
+                            <button id="submitButton" class="btn btn-primary">
+                                <i class="bi bi-search me-2"></i> Decode Email
+                            </button>
+                        </div>
+                        <!-- Decoder Response Section -->
+                        <div id="decoderResponse" class="response-section">
+                            <!-- <textarea id="decoderOutput" class="form-control" rows="1"
+                                placeholder="Decoded Response appears here"></textarea> -->
+                            <div id="decodedHtmlOutput" class="mt-3">
+                              <p class="text-muted text-center">Decoded response will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end of decoder Tab -->
 
-    <div class="mx-auto my-5 response-card">
-      <p><strong>Email Decoder</strong> uses <strong> LLM </strong> to generate <strong>detailed analysis</strong> and <strong>empathetic</strong> effective responses to emails you need support with.</p>
-      <p>Precisely draft <strong>professional</strong> and <strong>solution-oriented replies</strong> to improve customer satisfaction and reduce iterative communication.</p>
-      <p>Paste the email content in the below text box (from salutation to short signature) and click "Decode Email" for the magic.</p>
-    </div>
+                <!-- Drafter Tab -->
+                <div class="tab-pane fade" id="draft" role="tabpanel">
+                    <div class="mx-auto response-card">
+                        <textarea id="draft-email-content" class="form-control mb-3" rows="7"
+                            placeholder="Do you have an email draft already? Get it improvised..."></textarea>
+                        <textarea id="draft-hints" class="form-control mb-3" rows="4"
+                            placeholder="Looking for a precise draft? Provide appropriate hints..."></textarea>
+                        <button id="draft-email" class="btn btn-info" disabled>
+                            <i class="bi bi-envelope me-2"></i> Generate Draft
+                            <span id="draft-email-spinner" class="spinner-border spinner-border-sm d-none"
+                                role="status"></span>
+                        </button>
+                        <!-- Drafter Response Section -->
+                        <div id="drafterResponse" class="response-section">
+                            <textarea id="draftOutput" class="form-control" rows="10"
+                                placeholder="Draft response will appear here..." readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        
+                    <!-- Copy Button (Initially Hidden) - Moved outside tabs -->
+                    <div class="d-flex justify-content-end mt-3" id="copyButtonContainer" style="display: block !important;">
+                        <button class="btn btn-outline-primary" id="copyButton">
+                            <i class="bi bi-clipboard"></i> Copy to Clipboard
+                        </button>
+                    </div>
+                       
+                    <!-- Copy to Clipboard Button
+                        <div class="d-flex justify-content-end mt-3">
+                            <button id="copyButton" class="btn btn-primary" style="display: block" title="Copy to clipboard">
+                                <i class="bi bi-clipboard"></i> Copy to Clipboard
+                            </button>
+                        </div> -->
+        </div>
+    </main>
 
-    <!-- Input Section -->
-    <div class="mx-auto my-5 response-card">
-      <div class="d-flex align-items-end gap-3 mb-3">
-        <textarea id="inquiryInput" class="form-control" rows="4" placeholder="Have challenge in understanding an email? Paste email content here..."></textarea>
-        <button id="submitButton" class="btn btn-primary">Decode Email</button>
-      </div>
-      <div id="draft-options" class="mb-3">
-        <textarea id="draft-email-content" class="form-control mb-3" rows="4" placeholder="Do you have an email draft already? Get it improvised..."></textarea>
-        <textarea id="draft-hints" class="form-control mb-3" rows="4" placeholder="Looking for a precise draft? Provide appropriate hints..."></textarea>
-      </div>
-      <div class="button-container">
-        <!-- <select id="draft-type" class="form-select" style="width: auto;">
-          <option value="improvise">Improvise draft</option>
-          <option value="positive">Generate a positive draft</option>
-          <option value="hints">Generate draft using hints</option>
-        </select> -->
-        <button id="draft-email" class="btn btn-info">
-            <i class="bi bi-envelope me-2"></i> Draft e-mail
-            <span id="draft-email-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-        </button>
-      </div>
-    </div>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
-    <!-- Response Display Section -->
-    <div id="responseDisplay" class="mt-4"></div>
-  </div>
-</main>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3/dist/dark-theme.js" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module" src="js/email_decoder.js"></script>
+    <script src="js/components.js"></script>
 
-<!-- Footer Placeholder -->
-<div id="footer-placeholder"></div>
-
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@gramex/ui@0.3/dist/dark-theme.js" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script type="module" src="js/email_decoder.js"></script>
-  <script src="js/components.js"></script>
 </body>
 
-</html>
+</html

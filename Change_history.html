@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,9 @@
             border-color: var(--bs-border-color);
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             color: var(--bs-heading-color);
         }
 
@@ -53,89 +56,99 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <div id="navbar-placeholder"></div>
 
     <main>
-    <!-- Main Content -->
-    <div class="container mt-4">
-        <h1>Ideas in Action</h1>
+        <!-- Main Content -->
+        <div class="container mt-4">
+            <h1>Ideas in Action</h1>
 
-        <div class="module">
-            <h2>Main Menu</h2>
-            <p>PM Pal: Friendly and approachable.</p>
+            <div class="module">
+                <h2>Main Menu</h2>
+                <p>PM Pal: Friendly and approachable.</p>
+            </div>
+
+            <div class="module">
+                <h2>Email Decoder</h2>
+                <ol>
+                    <li>Create a drop-down with the following (This should be an expansion to the draft email option):
+                        <em><b>(Updated in ver 1.1)</b></em>
+                        <ul>
+                            <li>Draft a positive response to the email</li>
+                            <li>Draft an email using the hints provided</li>
+                            <li>Improvise the draft created by the user</li>
+                        </ul>
+                        <ul>
+                            <li>Create a sample email to be used for the above options: <em><b>(YTS)</b></em>
+                                <ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Decoder to flag severity based on the impact: <em><b>(Yet to Start)</b></em></li>
+                    <li>Reset button to clear the fields: <em><b>(Re-evaluate this requirement)</b></em></li>
+                </ol>
+            </div>
+
+            <div class="module">
+                <h2>The Email Alchemist</h2>
+                <p><em>Alternative names:</em></p>
+                <ul>
+                    <li><b>Email Miner:</b> Similar to "scavenger" but with a slightly more professional feel.</li>
+                    <li><b>Email Lens:</b> Implies a focused and insightful view of emails.</li>
+                    <li><b>Message Maestro:</b> Suggests a tool that expertly manages and summarizes emails</li>
+                    <li><b>Thread Weaver:</b> A more creative take on understanding email threads</li>
+                    <li><b>The Email Alchemist:</b> Suggests transforming emails into valuable insights.</li>
+                </ul>
+
+                <h3>Features:</h3>
+                <ol>
+                    <li>Authenticate Inbox: <em><b>(Updated in ver 1.2)</b></em>
+                        <ul>
+                            <li>Create a screen to read the logged in user or input an email Address</li>
+                            <li>Setup authentication to the user's inbox by sending an email to the specified email
+                                Address</li>
+                            <li>Display the authentication status on the home page once this app is opened from the Main
+                                Menu</li>
+                        </ul>
+                    </li>
+                    <li>Create the Alchemist's playground: <em><b>(R & D)</b></em>
+                        <ul>
+                            <li>Options to provide hints or what insights the LLM should look for</li>
+                            <li>Provide basic search options such as from email ID, specific subject (keywords), etc.
+                            </li>
+                            <li>Mention if the LLM should filter for a specific sentiment category such as negative,
+                                positive, or all</li>
+                            <li>Specify the format of the output such as tabular column, with key headings, etc. Provide
+                                drop-down to choose pre-defined formats</li>
+                            <li>Provide a "copy to clipboard" button</li>
+                            <li>Provide forward to a specific email ID option</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="module">
+                <h2>The Sentinel</h2>
+                <p><em>Alternative names:</em></p>
+                <ul>
+                    <li>Momentum Monitor: Highlights the tool's ability to track progress and maintain momentum</li>
+                    <li>Project Citadel: Suggests a strong, secure place for the project</li>
+                    <li>The Sentinel: A classic term for a watchful guardian</li>
+                    <li>Foresight Hub: A tool that provides a comprehensive overview of the project's health and
+                        progress</li>
+                </ul>
+
+                <h3>Features:</h3>
+                <ol>
+                    <li>Perform a health status of the project by running through emails, schedules, outstanding tasks
+                        and Summarize the health status such as risks, suggestions, etc.</li>
+                    <li>This can include upcoming holidays, number of corrections, etc.</li>
+                </ol>
+            </div>
         </div>
-
-        <div class="module">
-            <h2>Email Decoder</h2>
-            <ol>
-                <li>Create a drop-down with the following (This should be an expansion to the draft email option): <em><b>(Updated in ver 1.1)</b></em>
-                    <ul>
-                        <li>Draft a positive response to the email</li>
-                        <li>Draft an email using the hints provided</li>
-                        <li>Improvise the draft created by the user</li>
-                    </ul>
-                    <ul>
-                        <li>Create a sample email to be used for the above options: <em><b>(YTS)</b></em>
-                            <ul></li>
-                    </ul>
-                </li>
-                <li>Decoder to flag severity based on the impact: <em><b>(Yet to Start)</b></em></li>
-                <li>Reset button to clear the fields: <em><b>(Re-evaluate this requirement)</b></em></li>
-            </ol>
-        </div>
-
-        <div class="module">
-            <h2>The Email Alchemist</h2>
-            <p><em>Alternative names:</em></p>
-            <ul>
-                <li><b>Email Miner:</b> Similar to "scavenger" but with a slightly more professional feel.</li>
-                <li><b>Email Lens:</b> Implies a focused and insightful view of emails.</li>
-                <li><b>Message Maestro:</b> Suggests a tool that expertly manages and summarizes emails</li>
-                <li><b>Thread Weaver:</b> A more creative take on understanding email threads</li>
-                <li><b>The Email Alchemist:</b> Suggests transforming emails into valuable insights.</li>
-            </ul>
-
-            <h3>Features:</h3>
-            <ol>
-                <li>Authenticate Inbox: <em><b>(Updated in ver 1.2)</b></em>
-                    <ul>
-                        <li>Create a screen to read the logged in user or input an email Address</li>
-                        <li>Setup authentication to the user's inbox by sending an email to the specified email Address</li>
-                        <li>Display the authentication status on the home page once this app is opened from the Main Menu</li>
-                    </ul>
-                </li>
-                <li>Create the Alchemist's playground: <em><b>(R & D)</b></em>
-                    <ul>
-                        <li>Options to provide hints or what insights the LLM should look for</li>
-                        <li>Provide basic search options such as from email ID, specific subject (keywords), etc.</li>
-                        <li>Mention if the LLM should filter for a specific sentiment category such as negative, positive, or all</li>
-                        <li>Specify the format of the output such as tabular column, with key headings, etc. Provide drop-down to choose pre-defined formats</li>
-                        <li>Provide a "copy to clipboard" button</li>
-                        <li>Provide forward to a specific email ID option</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-
-        <div class="module">
-            <h2>The Sentinel</h2>
-            <p><em>Alternative names:</em></p>
-            <ul>
-                <li>Momentum Monitor: Highlights the tool's ability to track progress and maintain momentum</li>
-                <li>Project Citadel: Suggests a strong, secure place for the project</li>
-                <li>The Sentinel: A classic term for a watchful guardian</li>
-                <li>Foresight Hub: A tool that provides a comprehensive overview of the project's health and progress</li>
-            </ul>
-
-            <h3>Features:</h3>
-            <ol>
-                <li>Perform a health status of the project by running through emails, schedules, outstanding tasks and Summarize the health status such as risks, suggestions, etc.</li>
-                <li>This can include upcoming holidays, number of corrections, etc.</li>
-            </ol>
-        </div>
-    </div>
     </main>
     <div id="footer-placeholder"></div>
     <!-- Bootstrap and Theme JavaScript -->
@@ -169,8 +182,9 @@
                     })
             })
         })()
-     //<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
-     <script src="js/components.js"></script>  
+        //<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/components.js"></script>
     </script>
 </body>
-</html> 
+
+</html>

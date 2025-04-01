@@ -9,6 +9,16 @@ General
     - [Generate a log to capture all executions to LLM, email ID, date and time, service requested,etc. in a table format with date as stubbed row] 
     - [display a timer on the nav bar to show the active logged in duration of the user]
 
+Dashboard
+    - [Check if authorization has been completed]
+    - [Provide default drop down-options for tasks such as- list top 5 outstanding actions from my emails, summarize the meetings for this week, etc.]
+    - [provide interactive dashboards based on the choices]
+    - [Allow users to setup reminders or send follows ups using the appropriate email threads]
+    - [Allow users to add/modify participants of a meeting request- this could be based on email IDs in the releveant emails and its correspnding meeting invite]
+    - []
+    - []
+    - []
+
 Configuration
     - [Create a configruation page with the following features]  - <<updated in V1.2>>
     - [Choose the AI service provider- drop-down to choose from available options LLM, ChatGPT, Gemini, etc.]
@@ -28,11 +38,15 @@ Configuration
     - [show the authentication status in the Nav bar] - <<updated in V1.2>>
     - [disable the mailbox authentication button upon successful authentication] - <<updated in V1.2>>
 
-Email Decoder ***Fix the position of the 'copy to clipboard' button
+Email Decoder ***
     - [Introduce a 'Try me' button to use a specific example] 
     - [Modify the code to add events to the calendar appropriately based on the setting in the configruation] 
     - [Provide a button in the decoder page to set calendar events based on the results]
-    - [Seperate the decoded results and draft email into 2 tabs and use a common copy to clipboard button similar to the e-Alchemist]
+    - [Seperate the decoded results and draft email into 2 tabs and use a common copy to clipboard button similar to the e-Alchemist] - <<updated in V1.2.4>>
+    - [Fix the position of the 'copy to clipboard' button] - <<updated in V1.2.4>>
+    - [******** Remove the subject line and the signature from the draft]
+    - [******** Provide 2 choices for the draft for the user to choose the best]
+    - [******** Remove the additional scroll bar in the draft window] 
       
 
 The e-Alchemist
@@ -47,13 +61,22 @@ The e-Alchemist
     - [] 
 
     
-Email Organizer 
+Email Organizer (E-sortify or smart inbox)
     - [objective is to have a 0 inbox (search criteria should be only for emails marked to the recepient not in the cc or bcc)]
     - [provide suggestions to organize emails appropriately - apply labels, star them, set reminders, etc.]
     - [create a "to_respond" label and apply to emails that demand a response]
     - [create a "for_action" label and apply to emails that have an action for the recepient in the received email]
     - [Mark other emails as "for_reference"]
     - **** this should help manage the inbox effectively****
+
+
+Smart bot (****choose an appropriate name- Summarize documentation, provide key analysis from excel spreadsheets, etc. ****)
+    - [convert documentation into simple understandable notes - future can be to read aloud so that you do not have to read]
+    - [Prepare a cheat sheet for quick reference using the documentation- upload a doc file]
+    - [Provide key insights from an excel spreadsheet or Google sheet chosen by the user. e.g. health check on title status, productivity data, freelancer performance, etc.]
+    - [export anlaysis into quick reference interactive dashboards - pie charts, pivot tables, etc.]
+    - []
+    - **** this should help PMs, leaders decipher instructions****
 
 
 Email Calendar

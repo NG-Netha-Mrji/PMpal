@@ -1,10 +1,14 @@
+// try tp read the sender's name from the original email text used to decode
+// pass this to LLM while generating a draft
+
 import { Marked } from "https://cdn.jsdelivr.net/npm/marked@13/+esm";
 const marked = new Marked();
 const decodedHtmlOutput = document.getElementById("decodedHtmlOutput");
 //var activeTab = document.querySelector('.tab-pane.active');
-var decodedContent = "";
-var finalDraftContent = "";
-var contentToCopy = "";
+let decodedContent = "";
+let finalDraftContent = "";
+let contentToCopy = "";
+let senderName = ""; // Variable to store the sender's name
 
 console.log("Initialising");
 
@@ -90,6 +94,18 @@ const showMessage = (message, isError) => {
   updateCopyButtonState(); // Update copy button state after showing message
 };
 
+const extractSenderName = (input) => {
+    //const signatureRegex = /(?:Regards|Sincerely|Best|Thanks)[,\s]*([\w\s]+)/i; // Adjust regex as needed
+    const signatureRegex = /\*\*Sender\*\*:\s*(.*)/; // Regex to match the sender's name
+    const match = input.match(signatureRegex);
+    if (match && match[1]) {
+        senderName = match[1].trim(); // Store the sender's name
+    }
+    else{
+      senderName ="";
+    }
+};
+
 const postData = async (input) => {
   try {
     //const responseDisplay = document.getElementById('decoderOutput');
@@ -107,6 +123,7 @@ const postData = async (input) => {
             {
               role: "system",
               content: `Assume you are a project manager assistant. Your task is to analyze the email provided and generate a well-structured output that is clear, actionable, and easy to read. Please follow these steps:
+                        Extract the sender name in the format '**Sender**:'
                         1. Sentiment Analysis:
                            - Analyze the tone of the email (Positive/Negative/Neutral).
                            - If the sentiment is negative, briefly explain the reasons for the negative tone.
@@ -120,6 +137,7 @@ const postData = async (input) => {
 
                         4. Calendar Events:
                            - If any meetings or deadlines are implied, suggest corresponding Google Calendar events with specific details (title, date, and time).
+                           - the proposed date and time for the meeting should consider the current date. 
 
                         Respond in markdown format.`,
             },
@@ -138,6 +156,22 @@ const postData = async (input) => {
 
       contentToCopy = decodedContent;
 
+      // Extract sender information from decoded content
+      
+      extractSenderName(decodedContent);
+
+      // const senderInfoRegex = /\*\*Sender\*\*:\s*(.*)/; // Regex to match the sender's name
+      // const senderMatch = decodedContent.match(senderInfoRegex);
+      // console.log("senderMatch: " + senderMatch);
+      // if (senderMatch && senderMatch[1]) {
+      //     senderName = senderMatch[1].trim(); // Store the sender's name for future use
+      // }
+      // else
+      // {
+      //   senderName ="";
+      // }
+
+      console.log("sender name: " + senderName);
       //showMessage(data.choices[0].message.content, false);
 
       //console.log(marked.parse(data.choices[0].message.content));
@@ -163,9 +197,14 @@ const postData = async (input) => {
   }
 };
 
-// Event listener for the submit button to trigger postData
+// Event listener for the submit button to trigger postData (Decoder)
 document.getElementById("submitButton").addEventListener("click", async () => {
   const input = document.getElementById("inquiryInput").value;
+  console.log ("Input to generate Draft: /n" + input);
+  //console.log("input to extract sender: " + input);
+  //extractSenderName(input); // Extract sender's name from input
+  //console.log("sender name: " + senderName);
+  
   const emailButton1 = document.getElementById("submitButton");
   const emailSpinner1 = createElement(
     "span",
@@ -198,9 +237,7 @@ const generateEmailDraft = async (input) => {
 
   try {
     // Get the additional inputs
-    const draftContent = document
-      .getElementById("draft-email-content")
-      .value.trim();
+    const draftContent = document.getElementById("draft-email-content").value.trim();
     const draftHints = document.getElementById("draft-hints").value.trim();
 
     // Determine the appropriate system prompt based on input combinations
@@ -214,28 +251,71 @@ const generateEmailDraft = async (input) => {
             Modification Requirements:
             ${draftHints}
 
-            Please maintain a professional tone while incorporating the requested changes.`;
+            Sender's Name:
+            ${senderName}
+
+            Please maintain a professional tone while incorporating the requested changes.
+            Begin the email with a salutation addressing the sender suitably (remove initials if provided, use only first or last name, etc.), like this: "Hi [Sender's Name],"
+            Do not include a subject line.
+            Do not include a signature or any closing like "Regards," "Sincerely," etc.  End the email directly after the last sentence of the body.`;
     } else if (draftContent) {
       systemPrompt = `As a Project Manager, improve and refine the following draft email:
 
             Original Draft:
             ${draftContent}
+            
+            Sender's Name:
+            ${senderName}
 
-            Please enhance the content while maintaining the core message and ensuring a professional tone.`;
+            Please enhance the content while maintaining the core message and ensuring a professional tone.
+            Begin the email with a salutation addressing the sender suitably (remove initials if provided, use only first or last name, etc.), like this: "Hi [Sender's Name],"
+            Do not include a subject line.
+            Do not include a signature or any closing like "Regards," "Sincerely," etc.  End the email directly after the last sentence of the body.`;
     } else if (draftHints) {
       systemPrompt = `As a Project Manager, generate a reply email based on the following requirements and guidelines:
 
             Requirements:
             ${draftHints}
 
-            Please ensure the response is professional, clear, and addresses all the specified points.`;
+            Sender's Name:
+            ${senderName}
+
+            Please ensure the response is professional, clear, and addresses all the specified points.
+            Begin the email with a salutation addressing the sender suitably (remove initials if provided, use only first or last name, etc.), like this: "Hi [Sender's Name],"
+            Do not include a subject line.
+            Do not include a signature or any closing like "Best, Regards," "Sincerely," etc.  End the email directly after the last sentence of the body.`;
     } else {
-      systemPrompt = `As a Project Manager, generate a positive and professional reply email. 
-            The response should be:
-            - Constructive and solution-oriented
-            - Empathetic and understanding
-            - Clear and actionable
-            - Maintaining a positive professional tone throughout`;
+      systemPrompt = `Generate a positive and professional reply email to the given inquiry or issue. The email response should:
+
+                    - Be constructive and solution-oriented, addressing concerns or issues effectively.
+                    - Show empathy and understanding toward the recipient's situation or perspective.
+                    - Provide clear and actionable steps or solutions.
+                    - Maintain a positive and professional tone throughout the email.
+
+                    # Steps
+
+                    1. Begin with a warm and professional salutation.
+                    2. Acknowledge the sender's message and express understanding or empathy.
+                    3. Offer constructive feedback or a solution to the issue or concern raised.
+                    4. Provide specific and actionable next steps or instructions.
+                    5. Reinforce a positive tone and express willingness to assist further if needed.
+
+                    # Output Format
+
+                    Sender's Name:
+                    ${senderName}
+                    
+                    Begin the email with a salutation addressing the sender suitably (remove initials if provided, use only first or last name, etc.), like this: "Hi [Sender's Name],"
+                    Do not include a subject line.
+                    Do not include a signature or any closing like "Regards," "Sincerely," etc.  End the email directly after the last sentence of the body.`;
+
+      // systemPrompt = `As a Project Manager, generate a positive and professional reply email.
+      //       The response should be:
+      //       - Constructive and solution-oriented
+      //       - Empathetic and understanding
+      //       - Clear and actionable
+      //       - Maintaining a positive professional tone throughout
+      //       The response should contain the salutation but without a the subject line and signature`;
     }
 
     const response = await fetch(
@@ -278,7 +358,7 @@ const generateEmailDraft = async (input) => {
 
 // Event listener for the draft-email button
 document.getElementById("draft-email").addEventListener("click", async () => {
-  const input = document.getElementById("draft-email-content").value;
+  const input = document.getElementById("inquiryInput").value;
   await generateEmailDraft(input);
 });
 
@@ -325,4 +405,12 @@ document.getElementById("copyButton").addEventListener("click", () => {
     console.error("Failed to copy text:", err);
     alert("Failed to copy to clipboard");
   }
+});
+
+// Enable Decode button on input change
+const inquiryInput = document.getElementById('inquiryInput');
+const submitButton = document.getElementById('submitButton');
+
+inquiryInput.addEventListener('input', () => {
+    submitButton.disabled = inquiryInput.value.trim() === '';
 });

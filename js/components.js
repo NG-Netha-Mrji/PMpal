@@ -55,7 +55,7 @@ const tooltipList = [...tooltipTriggerList].map(
   (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
 );
 
-console.log("test"); // Ensure this executes
+//console.log("test"); // Ensure this executes
 
 // Update mailbox status
 function updateMailboxStatus() {
@@ -96,6 +96,7 @@ function updateMailboxStatus() {
 
 // Listen for authentication changes
 window.addEventListener("storage", (e) => {
+  console.log("Triggering mailbox status based on storage event listener");
   if (e.key === "mailboxAuth") {
     updateMailboxStatus();
   }

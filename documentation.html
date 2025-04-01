@@ -78,15 +78,23 @@
                         <thead>
                             <tr>
                                 <th>Version</th>
-                                <th>Release Date</th>
+                                <th style="width: 150px;">Release Date</th>
                                 <th>Major Changes</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1.2.5</td>
-                                <td>1-Apr-2025</td>
-                                <td>Enhanced Mail Mind features to retrieve sender information, truncate signature in the email draft, improved page setup</td>
+                                <td>01-Apr-2025</td>
+                                <td>Enhanced Mail Mind features (<span
+                                    style="color: blue;">based on user feedback</span>):
+                                    <ul>
+                                        <li><b>[E]</b> -- Excluded subject line and email signature from the generated draft for easier copy/pasting.</li>
+                                        <li><b>[E]</b> -- Enhanced draft to address recipients by name, utilizing the original email's signature.</li>
+                                        <li><b>[E]</b> -- Adjusted page setup for improved focus on key fields.</li>
+                                        <li><b>[B]</b> -- Fixed bug related to incorrect default draft generation.</li>
+                                    </ul>
+                                </td>
                             </tr>
                             <tr>
                                 <td>1.2.4</td>
@@ -101,15 +109,26 @@
                             </tr>
                             <tr>
                                 <td>1.1</td>
-                                <td>Previous</td>
+                                <td>21-Dec-2024</td>
                                 <td>Enhanced Email Decoder capabilities</td>
                             </tr>
                             <tr>
                                 <td>1.0</td>
-                                <td>Initial</td>
+                                <td>03-Dec-2024</td>
                                 <td>Basic email analysis features</td>
                             </tr>
                         </tbody>
+                        <tr>
+                            <td colspan="3">
+                                <table>
+                                    <caption style="width: 200px;">
+                                        <p>Notes:</p>
+                                        <p>[E] -- Enhancement</p>
+                                        <p>[B] -- Bug</p>
+                                    </caption>
+                                </table>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -147,7 +166,11 @@
                         </p>
 
                     </li>
-
+                    <li style="text-align: justify;">
+                        <strong>Severity Flagging</strong>
+                        <p style="text-align: justify;">Automatically flags emails based on impact and urgency (Coming
+                            Soon)</p>
+                    </li>
                     <li style="text-align: justify;">
                         <strong>Key Points</strong>
                         <p style="text-align: justify;">
@@ -232,9 +255,9 @@
                     <li style="text-align: justify;">Secure token management</li>
                 </ol>
                 <div class="image-placeholder">
-                    <img src="images/email-authentication.PNG" alt="PM Pal Main Dashboard" class="img-fluid">
+                    <img src="images/auth_mailbox_OTP.PNG" alt="PM Pal Main Dashboard" class="img-fluid">
                     <br>
-                    <small class="text-muted">Figure 7: email-authentication and general configuration</small>
+                    <small class="text-muted">Figure 7: Email verification through OTP</small>
                 </div>
                 <div class="image-placeholder">
                     <img src="images/auth_mailbox_1.PNG" alt="PM Pal Main Dashboard" class="img-fluid">
@@ -245,6 +268,11 @@
                     <img src="images/auth_mailbox_3.PNG" alt="PM Pal Main Dashboard" class="img-fluid">
                     <br>
                     <small class="text-muted">Figure 7b: Grant access</small>
+                </div>
+                <div class="image-placeholder">
+                    <img src="images/auth_mailbox_4.PNG" alt="PM Pal Main Dashboard" class="img-fluid">
+                    <br>
+                    <small class="text-muted">Figure 7c: Mailbox authentication success</small>
                 </div>
             </div>
 
